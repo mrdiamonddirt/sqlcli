@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../db/connection");
 
+// sequalize auto to auto generate the table
 const Movie = sequelize.define("Movie", {
   title: {
     type: DataTypes.STRING,
