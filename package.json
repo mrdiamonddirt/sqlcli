@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.6",
+    "yargs": "^17.6.2"
+  },
+  "name": "sqlcli",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrdiamonddirt/sqlcli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrdiamonddirt/sqlcli/issues"
+  },
+  "homepage": "https://github.com/mrdiamonddirt/sqlcli#readme"
+}
