@@ -14,3 +14,5 @@ async function app(yargsObject) {
         // print help
     }
 }
+
+app(yargs.argv);
