@@ -5,5 +5,6 @@ require ('dotenv').config();
 // dotenv.config()
 
 const { Sequelize } = require ('sequelize');
-
+// const test = new Sequelize(process.env.MYSQL_URI)
+// console.log(test)
 exports.sequelize = new Sequelize(process.env.MYSQL_URI)
