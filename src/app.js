@@ -1,7 +1,9 @@
 const yargs = require('yargs');
-import { Sequelize } = require('./db/connection');
+const { sequelize } = require('./db/connection');
+const { createMovie, readMovie, updateMovie, deleteMovie } = require('./movie/function');
 
 async function app(yargsObject) {
+    await sequelize.sync({ force: true });
     if (yargsObject.create){
         // create a new object
     } else if (yargsObject.read) {
