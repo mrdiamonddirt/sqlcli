@@ -78,7 +78,10 @@ const Director = sequelize.define("Director", {
   },
 });
 
+Actor.hasOne(Movie, {onDelete: 'cascade'}, {onUpdate: 'cascade'});
 Actor.belongsTo(Movie , {foreignKey: 'actor_id'});
+
+Director.hasOne(Movie, {onDelete: 'cascade'}, {onUpdate: 'cascade'});
 Director.belongsTo(Movie , {foreignKey: 'director_id'});
 
 module.exports = { Movie, Actor, Director };

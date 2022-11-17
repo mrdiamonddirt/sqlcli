@@ -2,9 +2,27 @@ const {Movie, Actor, Director} = require('./table');
 
 
 
-async function createMovie(movieObject) {
+async function createMovie(title, actor, director) {
     try {
+        if(await Actor.findOne({where: {name: actor}}) === null) {
+            await Actor.create({name: actor, age: 0});
+            const tmpActor = await Actor.findOne({where: {name: actor}});
+            actor_id = tmpActor.dataValues.actor_id;
         const newMovie = await Movie.create(movieObject);
+        console.log(newMovie.toJSON());
+        } else {
+            const tmpActor = await Actor.findOne({where: {name: actor}});
+            actor_id = tmpActor.dataValues.actor_id;
+        }
+        if(await Director.findOne({where: {name: director}}) === null) {
+            await Director.create({name: director, age: 0});
+            const tmpDirector = await Director.findOne({where: {name: director}});
+            director_id = tmpDirector.dataValues.director_id;
+        } else {
+            const tmpDirector = await Director.findOne({where: {name: director}});
+            director_id = tmpDirector.dataValues.director_id;
+        }
+        const newMovie = await Movie.create({title: title, actor_id: actor_id, director_id: director_id});
         console.log(newMovie.toJSON());
     } catch (error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
@@ -60,6 +78,14 @@ async function readMovie(movieObject) {
 async function listMovies() {
     try {
         const movies = await Movie.findAll();
+        for (let index = 0; index < movies.length; index++) {
+            const movie = movieList[index];
+            const director = await Director.findOne({where: {director_id: movie.director_id}});
+            const actor = await Actor.findOne({where: {actor_id: movie.actor_id}});
+            console.log(movie.toJSON());
+            console.log(director.toJSON());
+            console.log(actor.toJSON());
+        }
         console.log(movies.map(movie => movie.toJSON()));
         console.log(movies)
     } catch (error) {
