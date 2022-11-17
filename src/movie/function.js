@@ -1,5 +1,5 @@
-const Movie = require('./table');
-const Actor = require('./table');
+const {Movie, Actor, Director} = require('./table');
+
 
 
 async function createMovie(movieObject) {
@@ -15,24 +15,27 @@ async function createMovie(movieObject) {
     }
 };
 
-// async function createActor(movieObject, actorObject) {
-//     try {
-//         await Movie.sync();
-//         await Actor.sync();
-//         let t = await sequelize.transaction();
-//         let newMovie = await Movie.create(movieObject, { transaction: t });
-//         let newActor = await Actor.create(actorObject, { transaction: t });
-//         await t.commit();
-//         console.log(newActor.toJSON());
-//         console.log(newMovie.toJSON());
-//     } catch (error) {
-//         if (error.name === 'SequelizeUniqueConstraintError') {
-//             console.error('The actor name already exists');
-//         } else {
-//             console.error(error);
-//         }
-//     }
-// }
+async function createActor(movieObject, actorObject) {
+    try {
+        await Movie.sync();
+        await Actor.sync();
+        await Director.sync();
+        let t = await sequelize.transaction();
+        let newMovie = await Movie.create(movieObject, { transaction: t });
+        let newActor = await Actor.create(actorObject, { transaction: t });
+        let newDirector = await Director.create(actorObject, { transaction: t });
+        await t.commit();
+        console.log(newActor.toJSON());
+        console.log(newMovie.toJSON());
+        console.log(newDirector.toJSON());
+    } catch (error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            console.error('The actor name already exists');
+        } else {
+            console.error(error);
+        }
+    }
+}
 
 async function readMovie(movieObject) {
 //   find one movie by title
