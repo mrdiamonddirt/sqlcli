@@ -1,4 +1,6 @@
 const Movie = require('./table');
+const Actor = require('./table');
+
 
 async function createMovie(movieObject) {
     try {
@@ -13,22 +15,54 @@ async function createMovie(movieObject) {
     }
 };
 
-async function readMovie(movieTitle) {
+// async function createActor(movieObject, actorObject) {
+//     try {
+//         await Movie.sync();
+//         await Actor.sync();
+//         let t = await sequelize.transaction();
+//         let newMovie = await Movie.create(movieObject, { transaction: t });
+//         let newActor = await Actor.create(actorObject, { transaction: t });
+//         await t.commit();
+//         console.log(newActor.toJSON());
+//         console.log(newMovie.toJSON());
+//     } catch (error) {
+//         if (error.name === 'SequelizeUniqueConstraintError') {
+//             console.error('The actor name already exists');
+//         } else {
+//             console.error(error);
+//         }
+//     }
+// }
+
+async function readMovie(movieObject) {
+//   find one movie by title
     try {
         const movie = await Movie.findOne({
-            where: {
-                title: movieTitle
-            }
+            where: movieObject
         });
-        if (movie) {
-            console.log(movie.toJSON());
-        } else {
-            console.log('The movie was not found');
+        if (movie === null) {
+            console.log('The movie does not exist');
         }
+        console.log(movie.toJSON());
+    } catch (error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            console.error('The movie title already exists');
+        } else {
+            console.error(error);
+        }
+    }
+    
+};
+
+async function listMovies() {
+    try {
+        const movies = await Movie.findAll();
+        console.log(movies.map(movie => movie.toJSON()));
+        console.log(movies)
     } catch (error) {
         console.error(error);
     }
-};
+}
 
 async function updateMovie(movieTitle, movieObject) {
     try {
@@ -41,6 +75,13 @@ async function updateMovie(movieTitle, movieObject) {
         });
         console.log(`${numberOfAffectedRows} row(s) were affected`);
         console.log(affectedRows.toJSON());
+        if (numberOfAffectedRows === 0) {
+            console.log('The movie does not exist');
+        } else if (numberOfAffectedRows === 1) {
+            console.log('The movie was updated');
+            console.log(affectedRows.toJSON());
+            
+        }
     } catch (error) {
         console.error(error);
     }
@@ -59,4 +100,9 @@ async function deleteMovie(movieTitle) {
     }
 };
 
-module.exports = createMovie;
+exports.createMovie = createMovie;
+// exports.createActor = createActor;
+exports.readMovie = readMovie;
+exports.listMovies = listMovies;
+exports.updateMovie = updateMovie;
+exports.deleteMovie = deleteMovie;
